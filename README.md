@@ -1,1 +1,2 @@
-# eatsmart-dart-client
+# emei-dart-client
+Dart client for emei.lt website
