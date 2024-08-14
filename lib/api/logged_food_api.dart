@@ -157,11 +157,52 @@ class LoggedFoodApi {
     return null;
   }
 
+  /// Performs an HTTP 'GET /api/LoggedFood/WaterCount' operation and returns the [Response].
+  Future<Response> loggedFoodAddWaterGETWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/LoggedFood/WaterCount';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  Future<int?> loggedFoodAddWaterGET() async {
+    final response = await loggedFoodAddWaterGETWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'int',) as int;
+    
+    }
+    return null;
+  }
+
   /// Performs an HTTP 'POST /api/LoggedFood/AddWater' operation and returns the [Response].
   /// Parameters:
   ///
   /// * [LogWaterCommand] logWaterCommand (required):
-  Future<Response> loggedFoodAddWaterWithHttpInfo(LogWaterCommand logWaterCommand,) async {
+  Future<Response> loggedFoodAddWaterPOSTWithHttpInfo(LogWaterCommand logWaterCommand,) async {
     // ignore: prefer_const_declarations
     final path = r'/api/LoggedFood/AddWater';
 
@@ -189,8 +230,8 @@ class LoggedFoodApi {
   /// Parameters:
   ///
   /// * [LogWaterCommand] logWaterCommand (required):
-  Future<bool?> loggedFoodAddWater(LogWaterCommand logWaterCommand,) async {
-    final response = await loggedFoodAddWaterWithHttpInfo(logWaterCommand,);
+  Future<bool?> loggedFoodAddWaterPOST(LogWaterCommand logWaterCommand,) async {
+    final response = await loggedFoodAddWaterPOSTWithHttpInfo(logWaterCommand,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -199,47 +240,6 @@ class LoggedFoodApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
-    
-    }
-    return null;
-  }
-
-  /// Performs an HTTP 'GET /api/LoggedFood/WaterCount' operation and returns the [Response].
-  Future<Response> loggedFoodAddWater2WithHttpInfo() async {
-    // ignore: prefer_const_declarations
-    final path = r'/api/LoggedFood/WaterCount';
-
-    // ignore: prefer_final_locals
-    Object? postBody;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>[];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  Future<int?> loggedFoodAddWater2() async {
-    final response = await loggedFoodAddWater2WithHttpInfo();
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'int',) as int;
     
     }
     return null;

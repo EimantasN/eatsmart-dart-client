@@ -15,6 +15,8 @@ class FiberNutrition {
   FiberNutrition({
     this.totalValue,
     this.maxValue,
+    this.prefUnit,
+    this.map = const [],
   });
 
   ///
@@ -33,19 +35,33 @@ class FiberNutrition {
   ///
   num? maxValue;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? prefUnit;
+
+  List<String> map;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is FiberNutrition &&
     other.totalValue == totalValue &&
-    other.maxValue == maxValue;
+    other.maxValue == maxValue &&
+    other.prefUnit == prefUnit &&
+    _deepEquality.equals(other.map, map);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (totalValue == null ? 0 : totalValue!.hashCode) +
-    (maxValue == null ? 0 : maxValue!.hashCode);
+    (maxValue == null ? 0 : maxValue!.hashCode) +
+    (prefUnit == null ? 0 : prefUnit!.hashCode) +
+    (map.hashCode);
 
   @override
-  String toString() => 'FiberNutrition[totalValue=$totalValue, maxValue=$maxValue]';
+  String toString() => 'FiberNutrition[totalValue=$totalValue, maxValue=$maxValue, prefUnit=$prefUnit, map=$map]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -59,6 +75,12 @@ class FiberNutrition {
     } else {
       json[r'maxValue'] = null;
     }
+    if (this.prefUnit != null) {
+      json[r'prefUnit'] = this.prefUnit;
+    } else {
+      json[r'prefUnit'] = null;
+    }
+      json[r'map'] = this.map;
     return json;
   }
 
@@ -83,6 +105,10 @@ class FiberNutrition {
       return FiberNutrition(
         totalValue: num.parse('${json[r'totalValue']}'),
         maxValue: num.parse('${json[r'maxValue']}'),
+        prefUnit: mapValueOfType<String>(json, r'prefUnit'),
+        map: json[r'map'] is Iterable
+            ? (json[r'map'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
       );
     }
     return null;

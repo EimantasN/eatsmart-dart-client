@@ -14,6 +14,7 @@ class SearchFoodQuery {
   /// Returns a new [SearchFoodQuery] instance.
   SearchFoodQuery({
     this.query,
+    this.types = const [],
     this.pageNumber,
     this.pageSize,
   });
@@ -25,6 +26,8 @@ class SearchFoodQuery {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? query;
+
+  List<String> types;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -45,6 +48,7 @@ class SearchFoodQuery {
   @override
   bool operator ==(Object other) => identical(this, other) || other is SearchFoodQuery &&
     other.query == query &&
+    _deepEquality.equals(other.types, types) &&
     other.pageNumber == pageNumber &&
     other.pageSize == pageSize;
 
@@ -52,11 +56,12 @@ class SearchFoodQuery {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (query == null ? 0 : query!.hashCode) +
+    (types.hashCode) +
     (pageNumber == null ? 0 : pageNumber!.hashCode) +
     (pageSize == null ? 0 : pageSize!.hashCode);
 
   @override
-  String toString() => 'SearchFoodQuery[query=$query, pageNumber=$pageNumber, pageSize=$pageSize]';
+  String toString() => 'SearchFoodQuery[query=$query, types=$types, pageNumber=$pageNumber, pageSize=$pageSize]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -65,6 +70,7 @@ class SearchFoodQuery {
     } else {
       json[r'query'] = null;
     }
+      json[r'types'] = this.types;
     if (this.pageNumber != null) {
       json[r'pageNumber'] = this.pageNumber;
     } else {
@@ -98,6 +104,9 @@ class SearchFoodQuery {
 
       return SearchFoodQuery(
         query: mapValueOfType<String>(json, r'query'),
+        types: json[r'types'] is Iterable
+            ? (json[r'types'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
         pageNumber: mapValueOfType<int>(json, r'pageNumber'),
         pageSize: mapValueOfType<int>(json, r'pageSize'),
       );
